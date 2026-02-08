@@ -37,3 +37,20 @@
   - adjust **scripts** in `pkg.json` - run prisma generate before dev and build cmd
     - `"dev": "bunx --bun prisma generate && next dev",` - keep dev server sync with prisma schema as long as schema don't change
     - `"build": "bunx --bun prisma generate && next build",`
+
+  - create single prisma client in `lib/prisma.ts` - [Comprehensive Guide to Using Prisma ORM with Next.js](https://www.prisma.io/docs/orm/more/help-and-troubleshooting/nextjs-help) - the file name can be `lib/db.ts` also to make agnostic but for now use primsa.ts which export generated instance to whole project
+  - add adapter to connect prisma instance to pg - `bun add @prisma/adapter-pg` also add `bun add @prisma/client` before running better-auth cli
+  - setup prisma adapter with better-auth - this db setup done first so that better-auth cli can gererate models according to setup used
+  - generate auth tables `npx @better-auth/cli generate` - add --output to not affect original schema.prisma file after generating we can copy it into main schema.prisma and deleted output specified file - `bunx @better-auth/cli generate --output=auth.schema.prisma`
+  - make tweaks to `schema.prisma` - put createdAt & updatedAt at top under id in models, seperate relations, add @unique infront of columns instead of @@unique([columnName]) at last and change model names @@map to plural names 💎
+  - quick walkthrough the models:
+    - `User`
+    - `Session`
+    - `Account`
+    - `Verification`
+    - `Post` - attach to user 1:n relation - its custom table not come with better-auth
+  - push db changes `bunx --bun prisma db push`
+  - configure the authentication methods to use - built-in support for email/password, social sign-on providers
+  - create Mount Handlers in `app/api/auth/[...all]/routes.ts`
+  - adjust `eslint.config.mjs` to ignore `src/generated/**/*` - put it in globalIgnores(["src/generated/**/*"])
+  - create client instance in `lib/auth-client.ts` - use NEXT_PUBLIC_API_URL - this instance is use to interact in react to handle all auth function - either use `authClient` then access functionality with dot or export directly function instances from this file to export specific -> `export const {} = authClient;` - add what to export in {}
