@@ -10,5 +10,6 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+    minPasswordLength: 6, // by default, better-auth - use 8 as minPasswordLength
   },
 });

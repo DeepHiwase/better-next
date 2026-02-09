@@ -54,3 +54,30 @@
   - create Mount Handlers in `app/api/auth/[...all]/routes.ts`
   - adjust `eslint.config.mjs` to ignore `src/generated/**/*` - put it in globalIgnores(["src/generated/**/*"])
   - create client instance in `lib/auth-client.ts` - use NEXT_PUBLIC_API_URL - this instance is use to interact in react to handle all auth function - either use `authClient` then access functionality with dot or export directly function instances from this file to export specific -> `export const {} = authClient;` - add what to export in {}
+
+- [x] Enable Email & Password Authentication - already done ✅
+  - Create Sign Up Page PT1
+    - Create Form `components/register-form.tsx` - put it in `app/auth/register/page.tsx`
+    - Log Form Values - test
+  - Setup Sonner - put Toaster component in layout.tsx from `@/components/ui/sonner.tsx`
+  - Create Sign Up Page PT2
+    - Add Form Validation
+      - minPasswordLength: 6, in auth.ts // by default, better-auth - use 8 as minPasswordLength
+    - Destructure SignUp Function
+    - Showcase `onError`
+  - OPTIONS - **minPasswordLength** - already done ✅
+  - Create Sign Up PT3
+    - Sign Up _default automatically signs in the user_ - better-auth signin auto since email verification is off, so when signup - session created and cookie stored on account register - cookie max age - default `7d`
+  - Show Session on Profile Page
+  - Show Data in Neon Dashboard
+  - Sign Out User
+    - Destructure SignOut Function
+    - Show Removed Cookies
+  - Create Sign In Page PT1
+    - Create Form `components/login-form.tsx`
+    - Log Form Values - test
+    - Destructure SignIn Function
+  - Show Unauthorized on Profile Page
+  - Create Sign In Page PT2
+    - Showcase `onError`
+    - Sign In User
