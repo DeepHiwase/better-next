@@ -92,15 +92,17 @@
   - Showcase Full Cycle Again - test
   - OPTIONS - **autoSignIn** - disable as it is enabled by default
     - showcase - test
-  - OPTIONS - **advanced.database.generateId**
-    - Table IDs (change `schema.prisma` and push)
-    - Showcase
+  - OPTIONS - **advanced.database.generateId** - `https://www.better-auth.com/docs/concepts/database#id-generation` - to use uuid - disable better-auth option which uses default - Web crypto.getRandomValues()
+    - Table IDs (change `schema.prisma` and push) - stop dev - make changes to prisma models `@default(uuid())` - push to db and truncate db with cascade one
+      - `"prisma:push": "bunx --bun prisma db push",`
+        `"prisma:generate": "bunx --bun prisma generate"`
+    - Showcase - test
     - Truncate Tables
-  - OPTIONS - **emailAndPassword.password**
+  - OPTIONS - **emailAndPassword.password** - better-auth uses scrypt to hash passwords - `https://www.better-auth.com/docs/reference/security` - to customized it to use own hashing version
     - Create User
-    - Argon2 ``
-    - Add to ``
-    - Create Utilities `lib/argon2.ts`
+    - Argon2 `bun add @node-rs/argon2` - faster performance - cross platform support - small pkg size
+    - Add to `next.config.ts` - to tell server about external pkg - `serverExternalPackages: ["@node-rs/argon2"],`
+    - Create Utilities `lib/argon2.ts` - config accorgin to lucia-auth - `https://v3.lucia-auth.com/tutorials/username-and-password/nextjs-app`
     - Add to `lib/auth.ts`
     - Showcase
     - Truncate Tables
