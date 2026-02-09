@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -7,7 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn } from "@/lib/auth-client";
 
-export default function LoginForm() {
+export const LoginForm = () => {
+  const [isPending, setIsPending] = useState(false);
+  const router = useRouter();
+
   async function handleSubmit(evnt: React.SubmitEvent<HTMLFormElement>) {
     evnt.preventDefault();
     const formData = new FormData(evnt.target as HTMLFormElement);
@@ -24,12 +29,19 @@ export default function LoginForm() {
         password,
       },
       {
-        onRequest: () => {},
-        onResponse: () => {},
+        onRequest: () => {
+          setIsPending(true);
+        },
+        onResponse: () => {
+          setIsPending(false);
+        },
         onError: (ctx) => {
           toast.error(ctx.error.message);
         },
-        onSuccess: () => {},
+        onSuccess: () => {
+          toast.success("Login successful. Good to have you back.");
+          router.push("/profile");
+        },
       },
     );
   }
@@ -58,9 +70,9 @@ export default function LoginForm() {
         />
       </div>
 
-      <Button type="submit" className="w-full">
+      <Button type="submit" className="w-full" disabled={isPending}>
         Login
       </Button>
     </form>
   );
-}
+};

@@ -81,3 +81,27 @@
   - Create Sign In Page PT2
     - Showcase `onError`
     - Sign In User
+- IMP Auth done
+
+=================================================
+
+- [ ] For user convinences or nice to look at 👇 - to change the way generate ID of table and hash password before store in db
+  - `return-button.tsx` 💎 - add it to all pages needed, auth-pages, profile
+  - Showcase `onRequest` and `onResponse` - pending state, disable submit btn, `onSuccess` - redirect using router to `/profile` for _both_ signIn and signUp as better-auth signIn auto by default - show toast.success onSuccess then redirect
+  - Add Convienence Links for Auth Pages - don't have an acc / already have an acc
+  - Showcase Full Cycle Again - test
+  - OPTIONS - **autoSignIn** - disable as it is enabled by default
+    - showcase - test
+  - OPTIONS - **advanced.database.generateId**
+    - Table IDs (change `schema.prisma` and push)
+    - Showcase
+    - Truncate Tables
+  - OPTIONS - **emailAndPassword.password**
+    - Create User
+    - Argon2 ``
+    - Add to ``
+    - Create Utilities `lib/argon2.ts`
+    - Add to `lib/auth.ts`
+    - Showcase
+    - Truncate Tables
+  - Create User
