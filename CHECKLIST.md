@@ -165,3 +165,14 @@
   - ISSUE: Client session has no Context of the role
     - Cute circle on `get-started-button.tsx`
     - InferAdditionalFields plugin on Client - as we don't have role on authClient since we need authClient instance to inference of additional field added to auth 💎
+
+============
+
+- Admin Panel
+  - Create Page / Link
+  - Manually change role
+  - Update middleware
+  - Guard `/admin/dashboard`
+  - List users with prisma query
+  - Delete user with prisma query
+- Database hooks

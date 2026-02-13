@@ -6,6 +6,7 @@ import { createAuthMiddleware, APIError } from "better-auth/api";
 import { prisma } from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/lib/argon2";
 import { getValidDomains, normalizeName } from "@/lib/utils";
+import { UserRole } from "@/generated/prisma/enums";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -61,8 +62,25 @@ export const auth = betterAuth({
   user: {
     additionalFields: {
       role: {
-        type: ["USER", "ADMIN"], // you will get role in session
+        type: ["USER", "ADMIN"] as Array<UserRole>, // you will get role in session
         input: false, // this will tell better auth that when signup this field is not necessary, if not pass - our build will fail due to ts error
+      },
+    },
+  },
+  databaseHooks: {
+    // same as hooks, before & after run but run before and after database queries
+    user: {
+      create: {
+        // run this before running query of creating user to set admin role if its email is in env
+        before: async (user) => {
+          const ADMIN_EMAILS = process.env.ADMIN_EMAILS?.split(";") ?? [];
+
+          if (ADMIN_EMAILS.includes(user.email)) {
+            return { data: { ...user, role: UserRole.ADMIN } };
+          }
+
+          return { data: user };
+        },
       },
     },
   },

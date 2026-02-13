@@ -1,10 +1,11 @@
 import { headers } from "next/headers";
-
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
 import SignOutButton from "@/components/sign-out-button";
 import { ReturnButton } from "@/components/return-button";
+import { Button } from "@/components/ui/button";
 
 export default async function Profile() {
   const session = await auth.api.getSession({
@@ -14,7 +15,7 @@ export default async function Profile() {
   if (!session) {
     redirect("/auth/login"); // if somehow pass proxy - this will protect this page - page level security - recommended ✅
   }
-// session.user.role
+  // session.user.role
   return (
     <div className="px-8 py-16 container mx-auto max-w-5xl space-y-8">
       <div className="space-y-8">
@@ -22,7 +23,15 @@ export default async function Profile() {
 
         <h1 className="text-3xl font-bold">Profile</h1>
 
-        <SignOutButton />
+        <div className="flex items-center gap-2">
+          {session.user.role === "ADMIN" && (
+            <Button size="sm" asChild>
+              <Link href="/admin/dashboard">Admin Dashboard</Link>
+            </Button>
+          )}
+
+          <SignOutButton />
+        </div>
 
         <pre className="text-sm overflow-clip">
           {JSON.stringify(session, null, 2)}
