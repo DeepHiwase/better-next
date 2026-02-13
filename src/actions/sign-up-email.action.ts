@@ -1,6 +1,8 @@
 "use server";
 
-import { auth } from "@/lib/auth"; // this meant to be run on server not on client
+import { APIError } from "better-auth/api";
+
+import { auth, ErrorCode } from "@/lib/auth"; // this meant to be run on server not on client
 
 export async function signUpEmailAction(formData: FormData) {
   const name = String(formData.get("name"));
@@ -23,8 +25,16 @@ export async function signUpEmailAction(formData: FormData) {
 
     return { error: null };
   } catch (err) {
-    if (err instanceof Error) {
-      return { error: "Oops! Something went wrong while registering" };
+    if (err instanceof /* Error */ APIError) {
+      const errCode = err.body ? (err.body.code as ErrorCode) : "UNKNOWN";
+
+      switch (errCode) {
+        case "USER_ALREADY_EXISTS":
+        case "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL":
+          return { error: "Oops! Something went wrong. Please try again!" };
+        default:
+          return { error: err.message };
+      }
     }
 
     return { error: "Internal Server Error" };

@@ -141,7 +141,7 @@
   - showcase on auth routes
   - THIS IS NOT SECURE! - This is the `recommended approach` to optimistically **redirect users** - recommend handling auth checks in each page/route
   - config matcher from next.js in proxy.ts - `https://nextjs.org/docs/app/api-reference/file-conventions/proxy#negative-matching`
-- Error Handling
+- Error Handling - use better auth typing to access robust error info - `auth.$ERROR_CODES`
 - Hooks
   - Validate Email
   - Transform Name

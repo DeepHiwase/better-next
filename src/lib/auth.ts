@@ -30,3 +30,5 @@ export const auth = betterAuth({
     expiresIn: 30 * 24 * 60 * 60, // 15 -> 15 seconds, for 30 days -> 30 * 24 * 60 * 60 as its in seconds
   },
 });
+
+export type ErrorCode = keyof typeof auth.$ERROR_CODES | "UNKNOWN";
