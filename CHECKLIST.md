@@ -85,7 +85,7 @@
 
 =================================================
 
-- [ ] For user convinences or nice to look at 👇 - to change the way generate ID of table and hash password before store in db
+- [x] For user convinences or nice to look at 👇 - to change the way generate ID of table and hash password before store in db
   - `return-button.tsx` 💎 - add it to all pages needed, auth-pages, profile
   - Showcase `onRequest` and `onResponse` - pending state, disable submit btn, `onSuccess` - redirect using router to `/profile` for _both_ signIn and signUp as better-auth signIn auto by default - show toast.success onSuccess then redirect
   - Add Convienence Links for Auth Pages - don't have an acc / already have an acc
@@ -107,3 +107,23 @@
     - Showcase
     - Truncate Tables
   - Create User
+
+=================
+
+- [x] SERVER ACTIONS - since client side auth is convinent and better approach - now try to integrate same with server side with server components - validate and auth at server - now make both signin and signup implement with server actions, whole manually and then less manually by using direct feature given by better-auth - nextCookies plugin --- this will be same for Express Application
+- Sign Up User via SERVER ACTIONS
+  - Create Action
+  - Log Form Values
+  - Sign Up user on server
+- Sign In User via SERVER ACTIONS PT1 **HERE HERE HERE**
+  - Create Action
+  - Log Form Values
+  - Sign In User on Server - catch - when wroking with server actions in nextjs, you have set manually set cookies. - work with cookies api to set cookies. without this you only get login but not set cookie in browser as not passed in res - so set cookie in res
+  - Showcase - No Cookies
+  - Manually Set Cookies
+  - Showcase - Cookies
+- Get Additional Session Properties
+- PLUGINS - **nextCookies()** 💎 do all manually setup auto
+- use headers() from `next/headers` also to pass userAgent even if use plugin nextCookies()
+
+=======================================================
