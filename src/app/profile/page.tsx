@@ -8,14 +8,27 @@ import { ReturnButton } from "@/components/return-button";
 import { Button } from "@/components/ui/button";
 
 export default async function Profile() {
+  const headersList = await headers();
+
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: headersList,
   });
 
   if (!session) {
     redirect("/auth/login"); // if somehow pass proxy - this will protect this page - page level security - recommended ✅
   }
   // session.user.role
+
+  const FULL_POST_ACCESS = await auth.api.userHasPermission({
+    headers: headersList,
+    body: {
+      // userId: session.user.id, // instead can use headers to check if loggedin user has permission or not, this userId can be use when to check if user who ask for permission have permission or not
+      permissions: {
+        posts: ["update", "delete"], // add permissions you want to add to see if userId user have that or not - success if true
+      },
+    },
+  });
+
   return (
     <div className="px-8 py-16 container mx-auto max-w-5xl space-y-8">
       <div className="space-y-8">
@@ -31,6 +44,15 @@ export default async function Profile() {
           )}
 
           <SignOutButton />
+        </div>
+
+        <div className="text-2xl font-bold">Permissions</div>
+
+        <div className="space-x-4">
+          <Button size="sm">MANAGE OWN POSTS</Button>
+          <Button size="sm" disabled={!FULL_POST_ACCESS.success}>
+            MANAGE ALL POSTS
+          </Button>
         </div>
 
         <pre className="text-sm overflow-clip">

@@ -2,11 +2,13 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { createAuthMiddleware, APIError } from "better-auth/api";
+import { admin } from "better-auth/plugins";
 
 import { prisma } from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/lib/argon2";
 import { getValidDomains, normalizeName } from "@/lib/utils";
 import { UserRole } from "@/generated/prisma/enums";
+import { ac, roles } from "@/lib/permissions";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -28,7 +30,15 @@ export const auth = betterAuth({
       generateId: false, // disable default better-auth id generation - here can add custom logic to generate or change prisma model ✅
     },
   },
-  plugins: [nextCookies()],
+  plugins: [
+    nextCookies(),
+    admin({
+      defaultRole: UserRole.USER,
+      adminRoles: [UserRole.ADMIN],
+      ac,
+      roles,
+    }),
+  ],
   session: {
     expiresIn: 30 * 24 * 60 * 60, // 15 -> 15 seconds, for 30 days -> 30 * 24 * 60 * 60 as its in seconds
   },

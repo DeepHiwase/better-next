@@ -22,10 +22,16 @@ export async function DeleteUserAction({ userId }: { userId: string }) {
   }
 
   try {
-    await prisma.user.delete({
-      where: {
-        id: userId,
-        role: "USER",
+    // await prisma.user.delete({
+    //   where: {
+    //     id: userId,
+    //     role: "USER",
+    //   },
+    // });
+    await auth.api.removeUser({
+      headers: headersList,
+      body: {
+        userId,
       },
     });
 

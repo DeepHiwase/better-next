@@ -176,3 +176,16 @@
   - List users with prisma query
   - Delete user with prisma query
 - Database hooks
+
+============
+
+- Roles (Admin Plugin) from better auth `https://www.better-auth.com/docs/plugins/admin` - more like Authorization plugin - tells what are allowed to do
+  - generate auth tables `bunx @better-auth/cli generate --output=roles.schema.prisma` - this to run as we add admin plugin which add more things in schema tables to work with them - things added more - `https://www.better-auth.com/docs/plugins/admin#schema`
+  - compare & contrast (look at Schema section)
+  - Push changes `bunx --bun prisma db push` - as we add more fields to models
+  - Create Permissions (No Posts) - `https://www.better-auth.com/docs/plugins/admin#create-roles` - `lib/permissions.ts`
+  - Add to `lib/auth.ts` and `lib/auth-client.ts` - use `ac` & `roles` from `permissions.ts` and pass it to admin plugin
+  - List Users with Admin Plugin - by using instead of prisma, use better-auth api `listUsers` - its a `admin functionality`
+  - EXERCISE: Delete user with Admin Plugin - nothing wrong with using prisma query but for exercise we are using better-auth admin features to do some prisma query stuff
+  - Change Permissions (With Posts)
+- Create Dropdown to change role for Admins
