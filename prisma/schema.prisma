@@ -28,9 +28,10 @@ model User {
   updatedAt DateTime @updatedAt
 
   name          String
-  email         String  @unique
-  emailVerified Boolean @default(false)
+  email         String   @unique
+  emailVerified Boolean  @default(false)
   image         String?
+  role          UserRole @default(USER)
 
   sessions Session[]
   accounts Account[]
@@ -89,4 +90,10 @@ model Verification {
 
   @@index([identifier])
   @@map("verifications")
+}
+
+// ====================== Enums ===============
+enum UserRole {
+  USER
+  ADMIN
 }

@@ -128,7 +128,7 @@
 
 =======================================================
 
-- [ ] Get the session on Client
+- [x] Get the session on Client
   - Create Get Started Button
   - Destructure useSession
   - showcase
@@ -147,3 +147,21 @@
   - Transform Name
 
 ===================================================
+
+- [ ] Roles (Custom Method)
+  - Prisma
+    - Add UserRole Enum - put them **under models** that use them or in a seperate location if use in multiple location
+    - Push changes `bunx --bun prisma db push`
+  - User
+    - Show field is added because of `@default`
+    - Truncate Tables
+    - Create new User
+  - Profile PT1
+    - Show role is not typed in `session.user` - as you have to add it manually with better-auth even if added in prisma model
+  - OPTIONS - **user.additionalFields**
+    - showcase `input` option - need to pass `input: false` to make not cumpolsion to pass role when signup with better-auth
+  - Profile PT2
+    - show role is now typed and added to `session.user`
+  - ISSUE: Client session has no Context of the role
+    - Cute circle on `get-started-button.tsx`
+    - InferAdditionalFields plugin on Client - as we don't have role on authClient since we need authClient instance to inference of additional field added to auth 💎

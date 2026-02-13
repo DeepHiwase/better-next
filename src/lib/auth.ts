@@ -58,6 +58,14 @@ export const auth = betterAuth({
       }
     }),
   },
+  user: {
+    additionalFields: {
+      role: {
+        type: ["USER", "ADMIN"], // you will get role in session
+        input: false, // this will tell better auth that when signup this field is not necessary, if not pass - our build will fail due to ts error
+      },
+    },
+  },
 });
 
 export type ErrorCode = keyof typeof auth.$ERROR_CODES | "UNKNOWN";

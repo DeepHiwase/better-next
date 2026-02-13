@@ -14,7 +14,7 @@ export default async function Profile() {
   if (!session) {
     redirect("/auth/login"); // if somehow pass proxy - this will protect this page - page level security - recommended ✅
   }
-
+// session.user.role
   return (
     <div className="px-8 py-16 container mx-auto max-w-5xl space-y-8">
       <div className="space-y-8">
