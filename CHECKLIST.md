@@ -142,6 +142,8 @@
   - THIS IS NOT SECURE! - This is the `recommended approach` to optimistically **redirect users** - recommend handling auth checks in each page/route
   - config matcher from next.js in proxy.ts - `https://nextjs.org/docs/app/api-reference/file-conventions/proxy#negative-matching`
 - Error Handling - use better auth typing to access robust error info - `auth.$ERROR_CODES`
-- Hooks
-  - Validate Email
+- Hooks - to do some task `before` and `after` endpoint or auth logic - `https://www.better-auth.com/docs/concepts/hooks`
+  - Validate Email - `https://www.better-auth.com/docs/concepts/hooks#example-enforce-email-domain-restriction` validate email before signup logic hook
   - Transform Name
+
+===================================================
