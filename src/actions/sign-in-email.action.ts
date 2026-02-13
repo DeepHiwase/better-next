@@ -1,7 +1,7 @@
 "use server";
 
-import { cookies, headers } from "next/headers";
-import { parseSetCookieHeader } from "better-auth/cookies";
+import { /*cookies,*/ headers } from "next/headers";
+// import { parseSetCookieHeader } from "better-auth/cookies";
 
 import { auth } from "@/lib/auth";
 

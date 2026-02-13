@@ -136,9 +136,11 @@
   - change to 15 seconds
   - showcase
   - Change to 30 days
-- Middleware
+- Middleware - `proxy.ts` in `src` - `src/proxy.ts` ✅ to work - use `auth.api.getSession` since its server side - for now using proxy to only check session
   - check for existence of a session cookie
   - showcase on auth routes
+  - THIS IS NOT SECURE! - This is the `recommended approach` to optimistically **redirect users** - recommend handling auth checks in each page/route
+  - config matcher from next.js in proxy.ts - `https://nextjs.org/docs/app/api-reference/file-conventions/proxy#negative-matching`
 - Error Handling
 - Hooks
   - Validate Email

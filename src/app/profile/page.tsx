@@ -1,5 +1,7 @@
 import { headers } from "next/headers";
 
+import { redirect } from "next/navigation";
+
 import { auth } from "@/lib/auth";
 import SignOutButton from "@/components/sign-out-button";
 import { ReturnButton } from "@/components/return-button";
@@ -10,7 +12,7 @@ export default async function Profile() {
   });
 
   if (!session) {
-    return <p className="text-destructive">Unauthorized</p>;
+    redirect("/auth/login"); // if somehow pass proxy - this will protect this page - page level security - recommended ✅
   }
 
   return (
