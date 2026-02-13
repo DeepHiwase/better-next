@@ -127,3 +127,19 @@
 - use headers() from `next/headers` also to pass userAgent even if use plugin nextCookies()
 
 =======================================================
+
+- [ ] Get the session on Client
+  - Create Get Started Button
+  - Destructure useSession
+  - showcase
+- OPTIONS - **session.expiresIn**
+  - change to 15 seconds
+  - showcase
+  - Change to 30 days
+- Middleware
+  - check for existence of a session cookie
+  - showcase on auth routes
+- Error Handling
+- Hooks
+  - Validate Email
+  - Transform Name
