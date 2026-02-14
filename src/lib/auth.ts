@@ -94,6 +94,23 @@ export const auth = betterAuth({
       },
     },
   },
+
+  baseURL: process.env.BETTER_AUTH_URL,
+  socialProviders: {
+    google: {
+      clientId: String(process.env.GOOGLE_CLIENT_ID), // or as string
+      clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
+    },
+    github: {
+      clientId: String(process.env.GITHUB_CLIENT_ID), // or as string
+      clientSecret: String(process.env.GITHUB_CLIENT_SECRET),
+    },
+  },
+  account: {
+    accountLinking: {
+      enabled: false,
+    },
+  },
 });
 
 export type ErrorCode = keyof typeof auth.$ERROR_CODES | "UNKNOWN";

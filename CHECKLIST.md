@@ -148,7 +148,7 @@
 
 ===================================================
 
-- [ ] Roles (Custom Method)
+- [x] Roles (Custom Method)
   - Prisma
     - Add UserRole Enum - put them **under models** that use them or in a seperate location if use in multiple location
     - Push changes `bunx --bun prisma db push`
@@ -189,3 +189,21 @@
   - EXERCISE: Delete user with Admin Plugin - nothing wrong with using prisma query but for exercise we are using better-auth admin features to do some prisma query stuff
   - Change Permissions (With Posts)
 - Create Dropdown to change role for Admins
+
+=======================================
+
+- [ ] Oauth - Google & GitHub
+  - Create Buttons
+  - Google Oauth - `https://www.better-auth.com/docs/authentication/google`
+    - before this you have to setup oauth consent screen - where you have to give details of all contacts of project - this is where you can setup branding also (optional)
+    - create new project > credentials > create oauth client id
+      - authorized js origin - `http://localhost:3000` - in prod will actual domain
+      - authorized redirect url - `http://localhost:3000/api/auth/callback/google` from better-auth docs
+  - GitHub Oauth - `https://www.better-auth.com/docs/authentication/github`
+    - Homepage Url - `http://localhost:3000`
+    - Authorization callback URL - `http://localhost:3000/api/auth/callback/github`
+
+  - if register with with mail used in google/github account and then sign in with google/github, user image will be null, this lead to three account with same user - as better-auth by default enable `account linking`
+  - Account Linking - make account linking false - now if try let say signIn with github then google then at google signin - it will redirect to error url `http://localhost:3000/auth/login/error?error=account_not_linked` 404 as same credentials of signin found as its a single user
+  - Error Handling - create page to handle the above redirect 404 page - customized it by adding one `src/app/auth/login/error/page.tsx`
+    - `/auth/login/error`
