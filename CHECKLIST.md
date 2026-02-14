@@ -192,7 +192,7 @@
 
 =======================================
 
-- [ ] Oauth - Google & GitHub
+- [x] Oauth - Google & GitHub
   - Create Buttons
   - Google Oauth - `https://www.better-auth.com/docs/authentication/google`
     - before this you have to setup oauth consent screen - where you have to give details of all contacts of project - this is where you can setup branding also (optional)
@@ -207,3 +207,27 @@
   - Account Linking - make account linking false - now if try let say signIn with github then google then at google signin - it will redirect to error url `http://localhost:3000/auth/login/error?error=account_not_linked` 404 as same credentials of signin found as its a single user
   - Error Handling - create page to handle the above redirect 404 page - customized it by adding one `src/app/auth/login/error/page.tsx`
     - `/auth/login/error`
+
+========================================
+
+- [ ] Email Verification
+  - Nodemailer
+    - Create Template
+      - `bun add nodemailer` & `bun add -D @types/nodemailer`
+      - `lib/nodemailer.ts` - `https://nodemailer.com/smtp/oauth2` & `https://nodemailer.com/smtp/customauth`
+      - create transporter func and use env `&` where app password is used not gmail password, to get app password, first setup 2-step verification i.e. 2 factor authentication for that user email through which emails are going to send, then set app password `https://myaccount.google.com/apppasswords` - create app name and it shows password one time so copy it
+      - done nodemailer setup - check all credentials
+    - create `actions/send-email.action.ts` - to create a async server generic function to send emails
+  - Verify Email
+    - `emailAndPassword.requireEmailVerification` - make it true to enable
+    - `emailVerification`
+    - handle Error / Expired `/auth/verify` - like when wrong token or expired token or any - it should show a page with Login Error and have form to verify email again 💎 - when invalid token - catches on home page - but you don't want to catch on home page
+    - destructure sendVerificationEmail
+    - handle login page not verified
+  - Create Post signup page
+    showcase
+  - Forgot password
+    - Page / Form / Success
+  - Reset password
+    - Page / Form / Success
+    - showcase
