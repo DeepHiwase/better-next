@@ -220,10 +220,11 @@
     - create `actions/send-email.action.ts` - to create a async server generic function to send emails
   - Verify Email
     - `emailAndPassword.requireEmailVerification` - make it true to enable
-    - `emailVerification`
-    - handle Error / Expired `/auth/verify` - like when wrong token or expired token or any - it should show a page with Login Error and have form to verify email again 💎 - when invalid token - catches on home page - but you don't want to catch on home page
-    - destructure sendVerificationEmail
-    - handle login page not verified
+    - `emailVerification` - configure auth to send email with defined custome `send-email.action.ts` 💎
+    - handle Error / Expired `/auth/verify` - like when wrong token or expired token or any - it should show a page with Login Error and have form to verify email again 💎 - when invalid token - catches on home page - but you don't want to catch on home page - add custom url `/auth/verify` - now if error, it gets redirect to `http://localhost:3000/auth/verify?error=invalid_token` where you catch param and show according to error or `http://localhost:3000/auth/verify?error=token_expired`
+    - destructure `sendVerificationEmail` from better-auth to do it simply like `emailVerification` from better-auth
+    <!-- If email is not correct format like its a @example.com this will get send to nodemailer user email 💎 helpful for debugging -->
+    - handle login page not verified - by adding more verbose error message in signin action/form 
   - Create Post signup page
     showcase
   - Forgot password

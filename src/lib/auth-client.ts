@@ -9,4 +9,11 @@ export const authClient = createAuthClient({
   plugins: [inferAdditionalFields<typeof auth>(), adminClient({ ac, roles })], // ao `admin` also have type inference
 });
 
-export const { signUp, signOut, signIn, useSession, admin } = authClient;
+export const {
+  signUp,
+  signOut,
+  signIn,
+  useSession,
+  admin,
+  sendVerificationEmail, // from betterauth to handle logic of sending verification email
+} = authClient;

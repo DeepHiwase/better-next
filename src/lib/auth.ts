@@ -118,13 +118,16 @@ export const auth = betterAuth({
     expiresIn: 60 * 60, // 1hr
     autoSignInAfterVerification: true, // auto signin and take you to profile page 💎
     sendVerificationEmail: async ({ user, url }) => {
+      const link = new URL(url);
+      link.searchParams.set("callbackURL", "/auth/verify"); // now if error - redirect to /auth/verify to check
+
       await sendEmailAction({
         to: user.email,
         subject: "Verify your email address",
         meta: {
           description:
             "Please verify your email address to complete registration.",
-          link: String(url),
+          link: String(link),
         },
       });
     },

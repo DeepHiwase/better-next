@@ -28,8 +28,8 @@ export const RegisterForm = () => {
       setIsPending(false);
     } else {
       // onSuccess logic
-      toast.success("Registration complete. You're all set.");
-      router.push("/auth/login"); // since disable autoSignIn
+      toast.success("Registration complete. Please verify your email.");
+      router.push("/auth/register/success"); // since disable autoSignIn
     }
 
     // const name = String(formData.get("name"));
