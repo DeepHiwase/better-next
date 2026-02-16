@@ -1,4 +1,4 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { createAuthMiddleware, APIError } from "better-auth/api";
@@ -11,7 +11,7 @@ import { UserRole } from "@/generated/prisma/enums";
 import { ac, roles } from "@/lib/permissions";
 import { sendEmailAction } from "@/actions/send-email.action";
 
-export const auth = betterAuth({
+const options = {
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
@@ -50,23 +50,6 @@ export const auth = betterAuth({
       adminRoles: [UserRole.ADMIN],
       ac,
       roles,
-    }),
-    customSession(async ({ user, session }) => {
-      return {
-        session: {
-          expiresAt: session.expiresAt,
-          token: session.token,
-          userAgent: session.userAgent,
-        },
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          image: user.image,
-          createdAt: user.createdAt,
-          role: user.role, // issue ❌, this type didnt get infer as role was defined by another plugin - admin, so we need to lift all config up and then spread all across where it needed
-        },
-      };
     }),
   ],
   session: {
@@ -160,6 +143,30 @@ export const auth = betterAuth({
       });
     },
   },
+} satisfies BetterAuthOptions;
+
+export const auth = betterAuth({
+  ...options,
+  plugins: [
+    ...(options.plugins ?? []),
+    customSession(async ({ user, session }) => {
+      return {
+        session: {
+          expiresAt: session.expiresAt,
+          token: session.token,
+          userAgent: session.userAgent,
+        },
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+          createdAt: user.createdAt,
+          role: user.role,
+        },
+      };
+    }, options), // after puting options as second param, we get type inference for role also ✅
+  ],
 });
 
 export type ErrorCode = keyof typeof auth.$ERROR_CODES | "UNKNOWN";

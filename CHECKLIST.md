@@ -242,8 +242,11 @@
   - update hook
   - updating password
 - Custom Sessions - customizing session obj we get to only allow specific fields to get when access session - to do use plugin name `customSession`
-  - type inference for plugins workaround
-- PLUGINS - **Magic Link**
+  - type inference for plugins workaround - as we need to defined options type as role from admin plugin is not getting infered by customSession plugin. to work it we need to defined by lifting it up and then spread all accross where it needed - admin and customeSession plugins, to defined we use type from better-auth `type BetterAuthOptions` from better-auth
+    - create obj satisfies `BetterAuthOptions` then spread it to better-auth auth instance - then add plugin and spread options.plugins and then add `customSession` plugin with passing second option as options defined as `BetterAuthOptions`
+    - now we have to make auth-client instance also to infer typing for customeSession - use `customSessionClient` plugin from `better-auth/client/plugins` and type `auth` to infer
+    - now can add or remove in typing of session to access only specific part of session
+- PLUGINS - **Magic Link** - signin without password - it send email when signin with email - click email btn- you will be authenticated💎
   - add to client instance
   - create UI
   - adjust hooks
