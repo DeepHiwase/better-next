@@ -16,4 +16,6 @@ export const {
   useSession,
   admin,
   sendVerificationEmail, // from betterauth to handle logic of sending verification email
+  requestPasswordReset, // forgetPassword 💀
+  resetPassword,
 } = authClient;

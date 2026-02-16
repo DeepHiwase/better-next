@@ -26,6 +26,17 @@ export const auth = betterAuth({
       verify: verifyPassword,
     },
     requireEmailVerification: true, // so that email not verified - send error / Email Verification On 💎
+    // resetPasswordTokenExpiresIn: 60 * 60, // don't need to set, by default 1hr
+    sendResetPassword: async ({ user, url }) => {
+      await sendEmailAction({
+        to: user.email,
+        subject: "Reset Your Password",
+        meta: {
+          description: "Please click the link below to reset your password.",
+          link: url,
+        },
+      });
+    },
   },
   advanced: {
     database: {
@@ -115,7 +126,7 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendOnSignUp: true, // on registering
-    expiresIn: 60 * 60, // 1hr
+    expiresIn: 60 * 60, // 1hr // by deafult its 1 hr
     autoSignInAfterVerification: true, // auto signin and take you to profile page 💎
     sendVerificationEmail: async ({ user, url }) => {
       const link = new URL(url);
