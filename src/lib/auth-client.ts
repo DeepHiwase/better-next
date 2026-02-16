@@ -18,4 +18,5 @@ export const {
   sendVerificationEmail, // from betterauth to handle logic of sending verification email
   requestPasswordReset, // forgetPassword 💀
   resetPassword,
+  updateUser,
 } = authClient;

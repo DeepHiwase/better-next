@@ -210,7 +210,7 @@
 
 ========================================
 
-- [ ] Email Verification
+- [x] Email Verification
   - Nodemailer
     - Create Template
       - `bun add nodemailer` & `bun add -D @types/nodemailer`
@@ -233,3 +233,18 @@
   - Reset password
     - Page / Form / Success
     - showcase
+
+===========================================================
+
+- [ ] Show the image of user
+- Update User - this exported from auth-client - `updateUser` - use to update user values 💎
+  - change name / image
+  - update hook
+  - updating password
+- Custom Sessions - customizing session obj we get to only allow specific fields to get when access session
+  - type inference for plugins workaround
+- PLUGINS - **Magic Link**
+  - add to client instance
+  - create UI
+  - adjust hooks
+- Cookie cache
