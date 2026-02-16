@@ -28,6 +28,7 @@ export default function RegisterPage() {
         <div className="flex flex-col max-w-sm gap-4">
           <SignInOauthButton signUp provider="google" />
           <SignInOauthButton signUp provider="github" />
+          <SignInOauthButton signUp provider="discord" />
         </div>
       </div>
     </div>

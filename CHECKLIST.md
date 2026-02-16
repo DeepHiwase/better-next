@@ -208,6 +208,11 @@
   - Error Handling - create page to handle the above redirect 404 page - customized it by adding one `src/app/auth/login/error/page.tsx`
     - `/auth/login/error`
 
+======
+
+- [ ] Discord Oauth
+  - 
+
 ========================================
 
 - [x] Email Verification
@@ -236,7 +241,7 @@
 
 ===========================================================
 
-- [ ] Show the image of user
+- [x] Show the image of user
 - Update User - this exported from auth-client - `updateUser` - use to update user values 💎
   - change name / image
   - update hook
@@ -251,3 +256,7 @@
   - create UI
   - adjust hooks - before hook we put is only on `/sign-up/email` so it only work on signup - we want to work normalizeName function on `/sign-in/magic-link` and also when update user `/update-user`
 - Cookie cache - `https://www.better-auth.com/docs/guides/optimizing-for-performance`
+
+===============================================================
+
+- [ ]

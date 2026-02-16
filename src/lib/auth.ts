@@ -160,6 +160,10 @@ const options = {
       clientId: String(process.env.GITHUB_CLIENT_ID), // or as string
       clientSecret: String(process.env.GITHUB_CLIENT_SECRET),
     },
+    discord: {
+      clientId: String(process.env.DISCORD_CLIENT_ID),
+      clientSecret: String(process.env.DISCORD_CLIENT_SECRET),
+    },
   },
   account: {
     accountLinking: {

@@ -31,6 +31,7 @@ export default function LoginPage() {
         <div className="flex flex-col max-w-sm gap-4">
           <SignInOauthButton provider="google" />
           <SignInOauthButton provider="github" />
+          <SignInOauthButton provider="discord" />
         </div>
       </div>
     </div>

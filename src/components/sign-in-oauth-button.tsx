@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/auth-client";
 
 interface SignInOauthButtonProps {
-  provider: "google" | "github";
+  provider: "google" | "github" | "discord";
   signUp?: boolean;
 }
 
@@ -38,7 +38,12 @@ export const SignInOauthButton = ({
   }
 
   const action = signUp ? "Up" : "In";
-  const providerName = provider === "google" ? "Google" : "GitHub";
+  const providerName =
+    provider === "google"
+      ? "Google"
+      : provider === "discord"
+        ? "Discord"
+        : "GitHub";
 
   return (
     <Button onClick={handleClick} disabled={isPending}>
