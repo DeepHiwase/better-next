@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { createAuthMiddleware, APIError } from "better-auth/api";
-import { admin } from "better-auth/plugins";
+import { admin, customSession } from "better-auth/plugins";
 
 import { prisma } from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/lib/argon2";
@@ -50,6 +50,23 @@ export const auth = betterAuth({
       adminRoles: [UserRole.ADMIN],
       ac,
       roles,
+    }),
+    customSession(async ({ user, session }) => {
+      return {
+        session: {
+          expiresAt: session.expiresAt,
+          token: session.token,
+          userAgent: session.userAgent,
+        },
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+          createdAt: user.createdAt,
+          role: user.role, // issue ❌, this type didnt get infer as role was defined by another plugin - admin, so we need to lift all config up and then spread all across where it needed
+        },
+      };
     }),
   ],
   session: {

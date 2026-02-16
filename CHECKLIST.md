@@ -241,7 +241,7 @@
   - change name / image
   - update hook
   - updating password
-- Custom Sessions - customizing session obj we get to only allow specific fields to get when access session
+- Custom Sessions - customizing session obj we get to only allow specific fields to get when access session - to do use plugin name `customSession`
   - type inference for plugins workaround
 - PLUGINS - **Magic Link**
   - add to client instance
