@@ -246,8 +246,8 @@
     - create obj satisfies `BetterAuthOptions` then spread it to better-auth auth instance - then add plugin and spread options.plugins and then add `customSession` plugin with passing second option as options defined as `BetterAuthOptions`
     - now we have to make auth-client instance also to infer typing for customeSession - use `customSessionClient` plugin from `better-auth/client/plugins` and type `auth` to infer
     - now can add or remove in typing of session to access only specific part of session
-- PLUGINS - **Magic Link** - signin without password - it send email when signin with email - click email btn- you will be authenticated💎
-  - add to client instance
+- PLUGINS - **Magic Link** - signin without password - it send email when signin with email - click email btn- you will be authenticated💎 - `https://www.better-auth.com/docs/plugins/magic-link`
+  - add to client instance - this will add it to `signIn` instance come from better auth client instance
   - create UI
-  - adjust hooks
-- Cookie cache
+  - adjust hooks - before hook we put is only on `/sign-up/email` so it only work on signup - we want to work normalizeName function on `/sign-in/magic-link` and also when update user `/update-user`
+- Cookie cache - `https://www.better-auth.com/docs/guides/optimizing-for-performance`

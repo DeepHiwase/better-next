@@ -3,6 +3,7 @@ import {
   inferAdditionalFields,
   adminClient,
   customSessionClient,
+  magicLinkClient,
 } from "better-auth/client/plugins";
 
 import type { auth } from "@/lib/auth"; // to use auth instance as type
@@ -14,6 +15,8 @@ export const authClient = createAuthClient({
     inferAdditionalFields<typeof auth>(),
     adminClient({ ac, roles }), // ao `admin` also have type inference
     customSessionClient<typeof auth>(), // now we also infer customClient typing in auth-client instance
+    magicLinkClient(),
+    // passing all of thses plugins to auth-client also is to get these functionality on client side also using auth-client other than built in given
   ],
 });
 

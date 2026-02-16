@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LoginForm } from "@/components/login-form";
 import { ReturnButton } from "@/components/return-button";
 import { SignInOauthButton } from "@/components/sign-in-oauth-button";
+import { MagicLinkLoginForm } from "@/components/magic-link-login-form";
 
 export default function LoginPage() {
   return (
@@ -13,6 +14,8 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold">Login</h1>
 
         <div className="space-y-4">
+          <MagicLinkLoginForm />
+
           <LoginForm />
 
           <p className="text-muted-foreground text-sm">

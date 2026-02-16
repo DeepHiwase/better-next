@@ -2,7 +2,7 @@ import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { createAuthMiddleware, APIError } from "better-auth/api";
-import { admin, customSession } from "better-auth/plugins";
+import { admin, customSession, magicLink } from "better-auth/plugins";
 
 import { prisma } from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/lib/argon2";
@@ -51,9 +51,25 @@ const options = {
       ac,
       roles,
     }),
+    magicLink({
+      sendMagicLink: async ({ email, url }) => {
+        await sendEmailAction({
+          to: email,
+          subject: "Magic Link Login",
+          meta: {
+            description: "Please click the link below to log in.",
+            link: url,
+          },
+        });
+      },
+    }),
   ],
   session: {
     expiresIn: 30 * 24 * 60 * 60, // 15 -> 15 seconds, for 30 days -> 30 * 24 * 60 * 60 as its in seconds
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60, // session cached in cookie till 5 min - reduce no. of db call by `useSession` or `getSession`
+    },
   },
   hooks: {
     before: createAuthMiddleware(async (ctx) => {
@@ -68,6 +84,32 @@ const options = {
           });
         }
 
+        const name = normalizeName(ctx.body.name);
+
+        return {
+          context: {
+            ...ctx,
+            body: {
+              ...ctx.body,
+              name,
+            },
+          },
+        };
+      }
+      if (ctx.path === "/sign-in/magic-link") {
+        const name = normalizeName(ctx.body.name);
+
+        return {
+          context: {
+            ...ctx,
+            body: {
+              ...ctx.body,
+              name,
+            },
+          },
+        };
+      }
+      if (ctx.path === "/update-user") {
         const name = normalizeName(ctx.body.name);
 
         return {
