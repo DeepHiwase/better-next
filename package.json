@@ -12,6 +12,9 @@
     "prisma:studio": "bunx --bun prisma studio"
   },
   "dependencies": {
+    "@arcjet/inspect": "^1.1.0",
+    "@arcjet/ip": "^1.1.0",
+    "@arcjet/next": "^1.1.0",
     "@node-rs/argon2": "^2.0.2",
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",

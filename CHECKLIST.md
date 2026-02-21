@@ -24,6 +24,13 @@
 
 ---
 
+- [ ] prettier - `https://github.com/tailwindlabs/prettier-plugin-tailwindcss`
+  - `npm install -D prettier prettier-plugin-tailwindcss`
+  - add to `.prettierrc` config file in plugins - it must be add as last plugin after all plugins in prettier 👲
+  - add `.prettierignore` with node_modules, dist, build, .git, .gitignore, .next if nextjs and some other to ignore by prettier
+
+---
+
 - [x] install better-auth - `https://www.better-auth.com/docs/installation`
   - create `.env` - set up env vars - also add NEXT_PUBLIC_API_URL - to access API on client comps - prefix with NEXT_PUBLIC to use in client comp - `.env.example` - `!.env.example` in `.gitignore`
   - create `lib/auth.ts`
@@ -211,7 +218,6 @@
 ======
 
 - [ ] Discord Oauth
-  - 
 
 ========================================
 
@@ -259,4 +265,47 @@
 
 ===============================================================
 
-- [ ]
+- [ ] rate limit
+  - basic ratelimit by better-auth - `https://www.better-auth.com/docs/reference/options#ratelimit` - `rateLimit` option in auth instance steup - no bot protection
+  - storage default `memory`, but nextjs is serverless so we need to use `database` which generate a model schema by migrating with better-auth cli - `bunx @better-auth/cli generate --output=rateLimit.schema.prisma` - then copy rateLimit with config by you and put in `schema.prisma` file and push to db - but there is better way - Arcjet
+  - Setup ArcJet - create team, free tier upto 2 teammates - create new site - name `Better-auth` - choose `nextjs` - `https://docs.arcjet.com/get-started?f=next-js`
+    - features can include
+      - Bot detection. Rate limiting. Email validation. Attack protection. Data redaction. - any feature can be add on any http method - go through docs
+    - `bun add @arcjet/next @arcjet/inspect` - here inspect for checking snooping stuff - all need to configure
+      - `bun add @arcjet/ip` for ip related stuff
+    - modify `app/api/auth/[...all]/routes.ts` - GET and POST handles to include arcjet first to modify response and early return according to request obj💎
+      - create instance of arcjet which include api key `ARCJET_KEY`, on which basis to check - charasteristics `userIdOrIp` - check userId or Ip of user, rules -> shield mode "LIVE" so to run in without reporting in dev mode
+      - define botSettings, restrictiveRateLimitSettings <this are more restrictive settings>, laxRateLimitSettings <this are less restrictive settings>, emailSettings so to use this settings in different scenerios
+    - create `checkArcjet` async function to check passed `request` object get in POST handler - return decision object with rules appled on it are validated and protect request obj and throw error into decision obj which can be check in POST handler and return response according to it.
+      - add routes to check like `/auth/sign-up` where get POST request
+    - 👲 as better-auth also read the body of request obj at the same time and you can't have two things reading same req object - so clone req obj for better-auth to read after arcjet used - so clone req obj for arcjet with request.clone() method 🚨🚨 and passed to POST handler to be used by better-auth to read
+    - more to write here TODO: complete this, also there is a log of bug at the time of signup - check for it
+
+=====
+
+## Best Practices Steps with Agents
+
+- [ ] 1. Scafold a new project with shadcn create new project - which add guard rails to which design system to use for ai
+  - select custom style if want and run next.js cli command given after selecting component lib, style, base color, theme, icon lib, font, radius, menu color, menu accent, etc. scafolds nextjs, tailwindcss and shadcn.
+- [ ] 2. add md files for specific models -> gives a long term memory <- reads at the start of every session
+  - claude - CLAUDE.md - to generate by claude itself, run `init` cmd in its interface, lookk for project scafolded earlier and generate md file - put it in next app - put only text `agents.md` in it
+  - important to add
+    - Do, Don't, Tech Stack, Commands/Scripts, Boundaries, Project Structure, Key/Imp Files, Code Examples, PR Guidelines, PR Checklist, When Stuck what to do, Extended Documentation referencing to .agents/.claude folder
+  - gemini & gpt - AGENTS.md - so all config in this file only.
+- [ ] 3. add skills for framework knowledge
+  - skills are - reusableknowledge packs - install with simple command - get skills from `https://skills.sh/`
+  - to add skills to project - select which skills to add -
+    - `vercel-react-best-practices` - it gives cmd `npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices` - run in terminal
+      - select antigravity and claude code and all other imp are selected by default
+      - select Project to install to specificly for project
+      - select symlink - to install all models agents file in single source or truth - then proceed for installation
+        - creates folders of `.agents/skills` and for claude as we selected before - same config but in diff folder `.claude/skills`
+    - `vercel-composition-patterns`
+    - `next-best-practices`
+  - to update skills - `npx skills update`
+- [ ] 4. Plan before you execute - make sure agent have everything needed to build in plan mode - ex in PROMPT.md for plan mode
+  - add docs reference
+  - `ask me questions before start building` sentence in prompt.
+- [ ] 5. Checkpoint with Git
+  - commit after every successful step
+  - if something breaks - `git restore` to restore to previous commited code

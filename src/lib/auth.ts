@@ -189,6 +189,21 @@ const options = {
       });
     },
   },
+  // rateLimit: {
+  //   // Server-side requests made using `auth.api` aren't affected by rate limiting. Rate limits only apply to client-initiated requests.
+  //   // also it only check ips not bot detection
+  //   enabled: true, // default - prod true, dev false - so no need to configure 💎
+  //   window: 10, // default 10 sec window
+  //   max: 100, // max no. of req default 100 in a window
+  //   // customRules: { // add custome path config also 💎
+  //   //   "/example/path": {
+  //   //     window: 10,
+  //   //     max: 100,
+  //   //   },
+  //   // },
+  //   storage: "database", // default `memory`, but nextjs is serverless so we need to use `database` which generate a model schema by migrating with better-auth cli as when need memory, nextjs runs in a serverless env
+  //   modelName: "rateLimit", // model name default `rateLimit`
+  // },
 } satisfies BetterAuthOptions;
 
 export const auth = betterAuth({

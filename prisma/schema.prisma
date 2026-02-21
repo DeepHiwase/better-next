@@ -97,6 +97,16 @@ model Verification {
   @@map("verifications")
 }
 
+// model RateLimit {
+//   id          String @id @default(uuid())
+
+//   key         String @unique
+//   count       Int
+//   lastRequest BigInt
+
+//   @@map("rateLimits")
+// }
+
 // ====================== Enums ===============
 enum UserRole {
   USER
