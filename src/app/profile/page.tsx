@@ -10,6 +10,7 @@ import { UpdateUserForm } from "@/components/update-user-form";
 import { ChangePasswordForm } from "@/components/change-password-form";
 import { Card, CardContent } from "@/components/ui/card";
 import SessionManagement from "@/components/session-management";
+import { AccountDeletion } from "@/components/account-deletion";
 // import { SessionTab } from "@/components/session-tab";
 
 export default async function Profile() {
@@ -99,11 +100,16 @@ export default async function Profile() {
 
           <SessionTab currentSessionToken={session.session.token} />
         </div>
+
+        <div className="space-y-4 p-4 rounded-b-md border border-t-8 border-destructive">
+          <h2 className="text-2xl font-bold">Account Deletion</h2>
+
+          <AccountDeletion />
+        </div>
       </div>
     </div>
   );
 }
-
 
 export const SessionTab = async ({
   currentSessionToken,

@@ -131,6 +131,20 @@ const options = {
         input: false, // this will tell better auth that when signup this field is not necessary, if not pass - our build will fail due to ts error
       },
     },
+    deleteUser: {
+      enabled: true,
+      sendDeleteAccountVerification: async ({ user, url }) => {
+        await sendEmailAction({
+          to: user.email,
+          subject: "Account Deletion 💀",
+          meta: {
+            description:
+              "Delete Account Permanently by clicking the followind button",
+            link: url,
+          },
+        });
+      },
+    },
   },
   databaseHooks: {
     // same as hooks, before & after run but run before and after database queries

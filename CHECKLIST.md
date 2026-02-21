@@ -316,3 +316,10 @@
   - parse userAgent data from session with better approach - using lib `ua-parser-js` 💎 - `bun add ua-parser-js`
 
   - even after revoke session that is open in other tab or device, it will still be logged in for `1m` as session is cached by default 💎 
+
+
+==================================
+
+- [ ] Delete User Account
+  - to enable the deletion of account, you have to set enable this feature in auth instance. 
+    - **user.deleteUser.enabled** - to true and send email of deletion initiation to actually delete user by user itself `sendDeleteAccountVerification` in user.deleteUser field which takes async function like other to send email.
