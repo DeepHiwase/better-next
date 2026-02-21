@@ -8,6 +8,9 @@ import { ReturnButton } from "@/components/return-button";
 import { Button } from "@/components/ui/button";
 import { UpdateUserForm } from "@/components/update-user-form";
 import { ChangePasswordForm } from "@/components/change-password-form";
+import { Card, CardContent } from "@/components/ui/card";
+import SessionManagement from "@/components/session-management";
+// import { SessionTab } from "@/components/session-tab";
 
 export default async function Profile() {
   const headersList = await headers();
@@ -90,7 +93,33 @@ export default async function Profile() {
 
           <ChangePasswordForm />
         </div>
+
+        <div className="space-y-4 p-4 rounded-b-md border border-t-8 border-gray-600">
+          <h2 className="text-2xl font-bold">Session Management</h2>
+
+          <SessionTab currentSessionToken={session.session.token} />
+        </div>
       </div>
     </div>
   );
 }
+
+
+export const SessionTab = async ({
+  currentSessionToken,
+}: {
+  currentSessionToken: string;
+}) => {
+  const sessions = await auth.api.listSessions({ headers: await headers() });
+
+  return (
+    <Card>
+      <CardContent>
+        <SessionManagement
+          sessions={sessions}
+          currentSessionToken={currentSessionToken}
+        />
+      </CardContent>
+    </Card>
+  );
+};

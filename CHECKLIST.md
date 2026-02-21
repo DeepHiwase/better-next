@@ -309,3 +309,10 @@
 - [ ] 5. Checkpoint with Git
   - commit after every successful step
   - if something breaks - `git restore` to restore to previous commited code
+
+==================================
+
+- [ ] session management
+  - parse userAgent data from session with better approach - using lib `ua-parser-js` 💎 - `bun add ua-parser-js`
+
+  - even after revoke session that is open in other tab or device, it will still be logged in for `1m` as session is cached by default 💎 
