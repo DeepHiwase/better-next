@@ -4,9 +4,10 @@ import {
   adminClient,
   customSessionClient,
   magicLinkClient,
+  twoFactorClient,
 } from "better-auth/client/plugins";
 
-import type { auth } from "@/lib/auth"; // to use auth instance as type
+import { auth } from "@/lib/auth"; // to use auth instance as type
 import { ac, roles } from "@/lib/permissions";
 
 export const authClient = createAuthClient({
@@ -17,6 +18,11 @@ export const authClient = createAuthClient({
     customSessionClient<typeof auth>(), // now we also infer customClient typing in auth-client instance
     magicLinkClient(),
     // passing all of thses plugins to auth-client also is to get these functionality on client side also using auth-client other than built in given
+    twoFactorClient({
+      onTwoFactorRedirect: () => {
+        window.location.href = "/auth/2fa";
+      },
+    }), // add it to client so to redirect for verify 2nd factor
   ],
 });
 

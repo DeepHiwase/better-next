@@ -8,9 +8,11 @@ import { ReturnButton } from "@/components/return-button";
 import { Button } from "@/components/ui/button";
 import { UpdateUserForm } from "@/components/update-user-form";
 import { ChangePasswordForm } from "@/components/change-password-form";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SessionManagement from "@/components/session-management";
 import { AccountDeletion } from "@/components/account-deletion";
+import { Badge } from "@/components/ui/badge";
+import TwoFactorAuth from "@/components/two-factor-auth";
 // import { SessionTab } from "@/components/session-tab";
 
 export default async function Profile() {
@@ -93,6 +95,11 @@ export default async function Profile() {
           <h2 className="text-2xl font-bold">Change Password</h2>
 
           <ChangePasswordForm />
+
+          <SecurityTab
+            email={session.user.email}
+            isTwoFactorEnabled={session?.user.twoFactorEnabled ?? false}
+          />
         </div>
 
         <div className="space-y-4 p-4 rounded-b-md border border-t-8 border-gray-600">
@@ -125,6 +132,28 @@ export const SessionTab = async ({
           sessions={sessions}
           currentSessionToken={currentSessionToken}
         />
+      </CardContent>
+    </Card>
+  );
+};
+
+export const SecurityTab = async ({
+  email,
+  isTwoFactorEnabled,
+}: {
+  email: string;
+  isTwoFactorEnabled: boolean;
+}) => {
+  return (
+    <Card>
+      <CardHeader className="flex items-center justify-between gap-2">
+        <CardTitle>Two-Factor Authentication</CardTitle>
+        <Badge variant={isTwoFactorEnabled ? "default" : "secondary"}>
+          {isTwoFactorEnabled ? "Enabled": "Disabled"}
+        </Badge>
+      </CardHeader>
+      <CardContent>
+        <TwoFactorAuth isEnabled={isTwoFactorEnabled} />
       </CardContent>
     </Card>
   );

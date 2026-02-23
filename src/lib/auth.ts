@@ -2,7 +2,12 @@ import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { createAuthMiddleware, APIError } from "better-auth/api";
-import { admin, customSession, magicLink } from "better-auth/plugins";
+import {
+  admin,
+  customSession,
+  magicLink,
+  twoFactor,
+} from "better-auth/plugins";
 
 import { prisma } from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/lib/argon2";
@@ -43,6 +48,7 @@ const options = {
       generateId: false, // disable default better-auth id generation - here can add custom logic to generate or change prisma model ✅
     },
   },
+  appName: "Better-Next",
   plugins: [
     nextCookies(),
     admin({
@@ -63,6 +69,7 @@ const options = {
         });
       },
     }),
+    twoFactor({ issuer: "Better-Next" }),
   ],
   session: {
     expiresIn: 30 * 24 * 60 * 60, // 15 -> 15 seconds, for 30 days -> 30 * 24 * 60 * 60 as its in seconds
@@ -238,6 +245,7 @@ export const auth = betterAuth({
           image: user.image,
           createdAt: user.createdAt,
           role: user.role,
+          twoFactorEnabled: user.twoFactorEnabled, // ⚠️🚨 most imp as i need to debug to find out that i didn't enable this to access in auth-client
         },
       };
     }, options), // after puting options as second param, we get type inference for role also ✅

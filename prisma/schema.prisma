@@ -27,18 +27,20 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name          String
-  email         String   @unique
-  emailVerified Boolean  @default(false)
-  image         String?
-  role          UserRole @default(USER)
-  banned        Boolean?  @default(false)
-  banReason     String?
-  banExpires    DateTime?
+  name             String
+  email            String    @unique
+  emailVerified    Boolean   @default(false)
+  image            String?
+  role             UserRole  @default(USER)
+  banned           Boolean?  @default(false)
+  banReason        String?
+  banExpires       DateTime?
+  twoFactorEnabled Boolean?  @default(false)
 
-  sessions Session[]
-  accounts Account[]
-  posts    Post[]
+  sessions   Session[]
+  accounts   Account[]
+  posts      Post[]
+  twoFactors TwoFactor[]
 
   @@map("users")
 }
@@ -48,12 +50,11 @@ model Session {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  expiresAt DateTime
-  token     String   @unique
-  ipAddress String?
-  userAgent String?
+  expiresAt      DateTime
+  token          String   @unique
+  ipAddress      String?
+  userAgent      String?
   impersonatedBy String?
-
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -106,6 +107,19 @@ model Verification {
 
 //   @@map("rateLimits")
 // }
+
+model TwoFactor {
+  id          String @id @default(uuid())
+  secret      String
+  backupCodes String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([secret])
+  @@index([userId])
+  @@map("twoFactors")
+}
 
 // ====================== Enums ===============
 enum UserRole {

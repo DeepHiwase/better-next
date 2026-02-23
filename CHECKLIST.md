@@ -315,11 +315,33 @@
 - [ ] session management
   - parse userAgent data from session with better approach - using lib `ua-parser-js` 💎 - `bun add ua-parser-js`
 
-  - even after revoke session that is open in other tab or device, it will still be logged in for `1m` as session is cached by default 💎 
-
+  - even after revoke session that is open in other tab or device, it will still be logged in for `1m` as session is cached by default 💎
 
 ==================================
 
 - [ ] Delete User Account
-  - to enable the deletion of account, you have to set enable this feature in auth instance. 
+  - to enable the deletion of account, you have to set enable this feature in auth instance.
     - **user.deleteUser.enabled** - to true and send email of deletion initiation to actually delete user by user itself `sendDeleteAccountVerification` in user.deleteUser field which takes async function like other to send email.
+
+==================================
+
+- [ ] Two Factor Auth - `https://www.better-auth.com/docs/plugins/2fa`
+  - use better-auth plugin `twoFactor()` and also give name to app in `appName` as it will be use as an issuer
+  - run generate cli cmd from better auth to get schema for it to add it to original `schema.prisma` file which then push to db as changes to models `bunx @better-auth/cli generate --output=twoFA.schema.prisma` <- this must run after adding plugin to see changes in schema - add one field in user `twoFactorEnabled` and a new model - `bunx --bun prisma db push`
+  - IMP 🚨🚨 to put `twoFactorEnabled: user.twoFactorEnabled,` in user in customSession as to get typing, i need to debug just to find out that i didn't enable this.
+
+  - `bun add zod`
+  - create form with react-hook-form with zod resolver as validation with zod
+    - create schema with zod obj for form `twoFactorAuthSchema` - then infer type named `TwoFactorAuthForm` from `twoFactorAuthSchema` with `z.infer<>`
+    - `bun install react-hook-form` & `bun i @hookform/resolvers`
+    - `bunx --bun shadcn@latest add field`
+    - `bunx --bun shadcn@latest add @wds/loading-swap`
+    - `bun i react-qr-code`
+    - `bunx --bun shadcn@latest add tabs`
+
+    - ⚠️ If you too long time to enter 2fa code after login to app in 2fa page, it will give error as their is set timeout to enter code, so if you get error then again login and enter authentication code as early as possible
+
+    - as backup codes are one-time use only so if use one of given then it will not be use again when login and 2fa with backupcode tab
+    - 2fa authentication tab is use with codes from mobile authenticator app
+
+=====================================
