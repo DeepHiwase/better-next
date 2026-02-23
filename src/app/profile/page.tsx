@@ -13,10 +13,14 @@ import SessionManagement from "@/components/session-management";
 import { AccountDeletion } from "@/components/account-deletion";
 import { Badge } from "@/components/ui/badge";
 import TwoFactorAuth from "@/components/two-factor-auth";
+import PasskeyManagement from "@/components/passkey-management";
 // import { SessionTab } from "@/components/session-tab";
 
 export default async function Profile() {
   const headersList = await headers();
+  const passkeys = await auth.api.listPasskeys({
+    headers: headersList
+  })
 
   const session = await auth.api.getSession({
     headers: headersList,
@@ -100,6 +104,15 @@ export default async function Profile() {
             email={session.user.email}
             isTwoFactorEnabled={session?.user.twoFactorEnabled ?? false}
           />
+
+          <Card>
+            <CardHeader className="flex items-center justify-between gap-2">
+              <CardTitle>Passkeys</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <PasskeyManagement passkeys={passkeys} />
+            </CardContent>
+          </Card>
         </div>
 
         <div className="space-y-4 p-4 rounded-b-md border border-t-8 border-gray-600">
@@ -149,7 +162,7 @@ export const SecurityTab = async ({
       <CardHeader className="flex items-center justify-between gap-2">
         <CardTitle>Two-Factor Authentication</CardTitle>
         <Badge variant={isTwoFactorEnabled ? "default" : "secondary"}>
-          {isTwoFactorEnabled ? "Enabled": "Disabled"}
+          {isTwoFactorEnabled ? "Enabled" : "Disabled"}
         </Badge>
       </CardHeader>
       <CardContent>

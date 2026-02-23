@@ -41,6 +41,7 @@ model User {
   accounts   Account[]
   posts      Post[]
   twoFactors TwoFactor[]
+  passkeys   Passkey[]
 
   @@map("users")
 }
@@ -109,7 +110,8 @@ model Verification {
 // }
 
 model TwoFactor {
-  id          String @id @default(uuid())
+  id String @id @default(uuid())
+
   secret      String
   backupCodes String
 
@@ -119,6 +121,27 @@ model TwoFactor {
   @@index([secret])
   @@index([userId])
   @@map("twoFactors")
+}
+
+model Passkey {
+  id        String    @id @default(uuid())
+  createdAt DateTime?
+
+  name         String?
+  publicKey    String
+  credentialID String
+  counter      Int
+  deviceType   String
+  backedUp     Boolean
+  transports   String?
+  aaguid       String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([credentialID])
+  @@map("passkeys")
 }
 
 // ====================== Enums ===============

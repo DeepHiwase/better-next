@@ -6,6 +6,7 @@ import {
   magicLinkClient,
   twoFactorClient,
 } from "better-auth/client/plugins";
+import { passkeyClient } from "@better-auth/passkey/client";
 
 import { auth } from "@/lib/auth"; // to use auth instance as type
 import { ac, roles } from "@/lib/permissions";
@@ -23,6 +24,7 @@ export const authClient = createAuthClient({
         window.location.href = "/auth/2fa";
       },
     }), // add it to client so to redirect for verify 2nd factor
+    passkeyClient(), // passkey client also comes from '@better-auth/passkey/' - 'client' module `@better-auth/passkey/client`
   ],
 });
 

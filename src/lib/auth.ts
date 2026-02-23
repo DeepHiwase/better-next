@@ -8,6 +8,7 @@ import {
   magicLink,
   twoFactor,
 } from "better-auth/plugins";
+import { passkey } from "@better-auth/passkey";
 
 import { prisma } from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/lib/argon2";
@@ -70,6 +71,7 @@ const options = {
       },
     }),
     twoFactor({ issuer: "Better-Next" }),
+    passkey(), // `bun add @better-auth/passkey` as not avaliable in normal plugins import
   ],
   session: {
     expiresIn: 30 * 24 * 60 * 60, // 15 -> 15 seconds, for 30 days -> 30 * 24 * 60 * 60 as its in seconds

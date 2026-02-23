@@ -345,3 +345,12 @@
     - 2fa authentication tab is use with codes from mobile authenticator app
 
 =====================================
+
+- [ ] Passkey - `https://www.better-auth.com/docs/plugins/passkey`
+  - add passkey plugins to both auth and auth-client instance - `bun add @better-auth/passkey`
+  - `bunx @better-auth/cli generate --output=passkey.schema.prisma` - modify tables - `bunx --bun prisma db push` - then generate
+  - `bunx --bun shadcn@latest add dialog`
+
+  - TODO: detail it
+
+=====================================

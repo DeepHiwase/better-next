@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn } from "@/lib/auth-client";
 // import { signInEmailAction } from "@/actions/sign-in-email.action";
-import Link from "next/link";
+import { PasskeyButton } from "@/components/passkey-button";
 
 export const LoginForm = () => {
   const [isPending, setIsPending] = useState(false);
@@ -63,41 +64,44 @@ export const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-sm w-full space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="example@gmail.com"
-          autoComplete="email"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex justify-between items-center gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Link
-            href="/auth/forgot-password"
-            className="text-sm italic text-muted-foreground hover:text-foreground"
-          >
-            Forgot password?
-          </Link>
+    <div className="space-y-4 max-w-sm w-full">
+      <form onSubmit={handleSubmit} className="max-w-sm w-full space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="example@gmail.com"
+            autoComplete="email webauthn" // webauthn come last
+          />
         </div>
 
-        <Input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="xxxxxxxx"
-          autoComplete="current-password"
-        />
-      </div>
+        <div className="space-y-2">
+          <div className="flex justify-between items-center gap-2">
+            <Label htmlFor="password">Password</Label>
+            <Link
+              href="/auth/forgot-password"
+              className="text-sm italic text-muted-foreground hover:text-foreground"
+            >
+              Forgot password?
+            </Link>
+          </div>
 
-      <Button type="submit" className="w-full" disabled={isPending}>
-        Login
-      </Button>
-    </form>
+          <Input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="xxxxxxxx"
+            autoComplete="current-password webauthn" // the webauthn must be last to put
+          />
+        </div>
+
+        <Button type="submit" className="w-full" disabled={isPending}>
+          Login
+        </Button>
+      </form>
+      <PasskeyButton />
+    </div>
   );
 };
