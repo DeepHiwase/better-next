@@ -37,11 +37,13 @@ model User {
   banExpires       DateTime?
   twoFactorEnabled Boolean?  @default(false)
 
-  sessions   Session[]
-  accounts   Account[]
-  posts      Post[]
-  twoFactors TwoFactor[]
-  passkeys   Passkey[]
+  sessions    Session[]
+  accounts    Account[]
+  posts       Post[]
+  twoFactors  TwoFactor[]
+  passkeys    Passkey[]
+  members     Member[]
+  invitations Invitation[]
 
   @@map("users")
 }
@@ -56,6 +58,7 @@ model Session {
   ipAddress      String?
   userAgent      String?
   impersonatedBy String?
+  activeOrganizationId String?
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -142,6 +145,57 @@ model Passkey {
   @@index([userId])
   @@index([credentialID])
   @@map("passkeys")
+}
+
+model Organization {
+  id        String   @id @default(uuid())
+  createdAt DateTime
+
+  name     String
+  slug     String  @unique
+  logo     String?
+  metadata String?
+
+  members     Member[]
+  invitations Invitation[]
+
+  @@map("organizations")
+}
+
+model Member {
+  id        String   @id @default(uuid())
+  createdAt DateTime
+
+  role String @default("member")
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([userId])
+  @@map("members")
+}
+
+model Invitation {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  email  String
+  role   String?
+  status String  @default("pending")
+
+  inviterId String
+  user      User   @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([email])
+  @@map("invitations")
 }
 
 // ====================== Enums ===============

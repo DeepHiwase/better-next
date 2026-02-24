@@ -6,6 +6,7 @@ import {
   admin,
   customSession,
   magicLink,
+  organization,
   twoFactor,
 } from "better-auth/plugins";
 import { passkey } from "@better-auth/passkey";
@@ -16,6 +17,7 @@ import { getValidDomains, normalizeName } from "@/lib/utils";
 import { UserRole } from "@/generated/prisma/enums";
 import { ac, roles } from "@/lib/permissions";
 import { sendEmailAction } from "@/actions/send-email.action";
+import { sendOrganizationInviteEmailAction } from "@/lib/emails/organization-invite.email";
 
 const options = {
   database: prismaAdapter(prisma, {
@@ -49,7 +51,7 @@ const options = {
       generateId: false, // disable default better-auth id generation - here can add custom logic to generate or change prisma model ✅
     },
   },
-  appName: "Better-Next",
+  appName: "Better-Next", // default `Better Auth`
   plugins: [
     nextCookies(),
     admin({
@@ -72,6 +74,21 @@ const options = {
     }),
     twoFactor({ issuer: "Better-Next" }),
     passkey(), // `bun add @better-auth/passkey` as not avaliable in normal plugins import
+    organization({
+      sendInvitationEmail: async ({
+        email,
+        organization,
+        invitation,
+        inviter,
+      }) => {
+        await sendOrganizationInviteEmailAction({
+          invitation,
+          inviter: inviter.user,
+          organization,
+          email,
+        });
+      },
+    }), // 🏭
   ],
   session: {
     expiresIn: 30 * 24 * 60 * 60, // 15 -> 15 seconds, for 30 days -> 30 * 24 * 60 * 60 as its in seconds

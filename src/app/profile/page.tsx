@@ -19,8 +19,8 @@ import PasskeyManagement from "@/components/passkey-management";
 export default async function Profile() {
   const headersList = await headers();
   const passkeys = await auth.api.listPasskeys({
-    headers: headersList
-  })
+    headers: headersList,
+  });
 
   const session = await auth.api.getSession({
     headers: headersList,
@@ -64,6 +64,17 @@ export default async function Profile() {
           <Button size="sm">MANAGE OWN POSTS</Button>
           <Button size="sm" disabled={!FULL_POST_ACCESS.success}>
             MANAGE ALL POSTS
+          </Button>
+        </div>
+
+        <div className="space-x-4">
+          <Button
+            size="lg"
+            variant="outline"
+            className="bg-violet-700 text-white hover:bg-violet-500 transition-colors duration-75"
+            asChild
+          >
+            <Link href="/organizations">Organizations</Link>
           </Button>
         </div>
 

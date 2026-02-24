@@ -5,6 +5,7 @@ import {
   customSessionClient,
   magicLinkClient,
   twoFactorClient,
+  organizationClient,
 } from "better-auth/client/plugins";
 import { passkeyClient } from "@better-auth/passkey/client";
 
@@ -25,6 +26,7 @@ export const authClient = createAuthClient({
       },
     }), // add it to client so to redirect for verify 2nd factor
     passkeyClient(), // passkey client also comes from '@better-auth/passkey/' - 'client' module `@better-auth/passkey/client`
+    organizationClient(), // 
   ],
 });
 

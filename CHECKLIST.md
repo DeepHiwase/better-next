@@ -354,3 +354,63 @@
   - TODO: detail it
 
 =====================================
+
+- [ ] Organization - better-auth organization plugin
+  - add organization plugin `https://www.better-auth.com/docs/plugins/organization` - comes with `better-auth/plugins` itself unlike passkey - add to instances like `organization()` in `auth` - then migrate with better-auth cli to generate schema changes acc to organization plugin `bunx @better-auth/cli generate --output=organization.schema.prisma` - then make changes acc to this to schema.prisma with custom structure by arranging order correctly. Don't forgot look for each models changes like session Model also. Last push to db and generate with prisma `bunx --bun prisma db push` & `bun run prisma:generate`.
+
+  - create organization
+  - create invitations
+  - list organizations
+  - sending invite emails
+  - invites page to accept or reject invitation
+  - organization select
+  - members tab - listing members of organization
+
+================
+
+- [ ] `React-Hook-Form` with `Zod` For Validation
+  - installation
+    - `bun i react-hook-form` - actual lib
+    - `bun i zod` - validation lib - create i/p schemas for form or fetched data types, etc.
+    - `bun i @hookform/resolvers` - helper to integrate validation lib like zod - `zodResolver` from `@hookform/resolvers/zod`
+    - optional - add devtool from react-hook-form for form creation & debug - `bun i -D @hookform/devtools` - `https://www.react-hook-form.com/dev-tools/`
+  - create schema with zod - named on what going to do - like for CreateOrganizationButton - its a form -> `createOrganizationSchema` - since for form so it would be an object z.object({}) - add robust/simple error to show if invalidation trigger of input 🏭
+  - infer type for to use in form validation by react-hook-form with useForm - create type for form named based on which form - `type CreateOrganizationForm` - "use client"
+  - create form instance with useForm passing type of Form - it must be done inside component where form is going to defined, pass zodResolver from @hookform/resolvers/zod to resolver key and zodResolver use schema we defined for that form and also pass defaultValues value as initial/ui/default value - this result a form object which has key formState to get state related attributes like isSubmitting bool to pass to loader in form
+  - add form related functions inside component, make async if return Promise to await inside logic - named starts with `handle` like `handleCreateOrganization` - param `data: CreateOrganizationForm` obj with all field values attach to name of field of form
+  - use shadcn field components to create form
+  - add onSubmit with value `form.handleSubmit(handleCreateOrganization)` here function pass which will trigger when submit form
+
+  - to create field that controlled by react-hook-form - `<Controller />` from react-hook-form which render field with function with params {field, fieldState} from which spread field to Input and use fieldState to show error by zod, controller name should match schema key names to track
+  - add `data-invalid` & `aria-invalid`
+
+=================
+
+- [ ] shadcn components
+  - installation - `https://ui.shadcn.com/docs/installation`
+  - install components that are most to use
+    - most use
+      - button
+      - input
+      - field - for forms
+      - label - when input is use
+      - sonner - for toast
+      - dialog - for modal
+      - textarea
+      - checkbox
+    - most complex and used if needed
+      - card
+      - sidebar
+      - select
+      - accordion 😓
+      - table
+    - great ux
+      - switch
+      - tabs
+      - drawer
+      - spinner - for loading state
+    - not so much
+      - badge
+      - separator
+      - Kbd - for showing keybindings
+      - avatar
